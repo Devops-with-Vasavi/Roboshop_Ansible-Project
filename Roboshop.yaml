@@ -1,0 +1,23 @@
+- name: managing ec2 instance
+  hosts: local
+  connection: local
+  vars:
+  instances_name: ["mongodb", "mysql", "redis", "rabbitmq"]
+  image_id: ami-0220d79f3f480ecf5
+  tasks:
+  - name: create ec2-instance
+    amazon.aws.ec2_instance:
+      name: "roboshop-{{ item }}"
+      Image_id: "{{ image_id }}"
+      instance_type: t3.large
+      security_group:
+      - "roboshop-{{ item }}"
+      - "roboshop-common"
+      loop: {{ instances_name }} 
+      register: ec2_output
+  - name: print pouput
+    debug:
+      msg: "{{ ec2_output }}
+  
+    
+
