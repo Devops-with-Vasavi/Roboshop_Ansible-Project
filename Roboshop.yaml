@@ -5,7 +5,7 @@
     instances_name: ["mongodb", "mysql", "redis", "rabbitmq"]
     image_id: ami-0220d79f3f480ecf5
   tasks:
-  - name: create ec2-instance
+  - name: create ec2 instance
     amazon.aws.ec2_instance:
       name: "roboshop-{{ item }}"
       Image_id: "{{ image_id }}"
