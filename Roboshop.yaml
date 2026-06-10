@@ -1,4 +1,4 @@
-- name: managing ec2 instance
+- name: management ec2 instance
   hosts: local
   connection: local
   vars:
