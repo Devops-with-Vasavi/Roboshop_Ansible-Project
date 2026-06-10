@@ -17,7 +17,7 @@
       register: ec2_output
   - name: print pouput
     debug:
-      msg: "{{ ec2_output }}
+      msg: "{{ ec2_output }}"
   
     
 
