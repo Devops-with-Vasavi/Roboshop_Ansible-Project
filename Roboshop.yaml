@@ -6,6 +6,7 @@
     # , "mysql", "rabbitmq", "catalogue", "user", "cart", "shipping", "payment", "frontend"]
     image_id: ami-0220d79f3f480ecf5
     domain_name: mydaws90.online
+    action: create
   tasks:
   - name: create ec2 instances
     amazon.aws.ec2_instance:
@@ -18,13 +19,14 @@
       - common
     loop: "{{ instances }}"
     register: ec2_output
+    when: action == "create"
   # - name: print ouput
   #   debug:
   #     msg: "{{ ec2_output }}"
-  - name: print output
-    debug:
-      msg: "Instance Name: {{ item.item }} PrivateIP: {{ item.instances[0].private_ip_address }}"
-    loop: "{{ ec2_output.results }}"
+  # - name: print output
+  #   debug:
+  #     msg: "Instance Name: {{ item.item }} PrivateIP: {{ item.instances[0].private_ip_address }}"
+  #   loop: "{{ ec2_output.results }}"
 
   - name: create route53 records
     amazon.aws.route53:
@@ -36,6 +38,7 @@
       value: "{{ item.instances[0].private_ip_address }}"
       overwrite: true
     loop: "{{ ec2_output.results }}"
+    when: action == "create"
 
 
   - name: create route53 record for frontend
@@ -48,8 +51,19 @@
       value: "{{ item.instances[0].public_ip_address }}"
       overwrite: true
     loop: "{{ ec2_output.results }}"
-
-    when: item.item == "frontend"
-  
+    when: 
+    - item.item == "frontend"
+    - action == "create"
+      
+  - name: delete route53 record
+    amazon.aws.route53:
+      state: absent
+      zone: "{{ domain_name }}"
+      record: "{{ item }}.{{ domain_name }}"
+      type: A
+      ttl: 1
+    loop: "{{ instances }}"
+    when: action == "delete" 
+    
     
 
