@@ -5,8 +5,6 @@
     instances: ["mongodb", "redis", "mysql", "rabbitmq", "catalogue", "user", "cart", "shipping", "payment", "frontend"]
     # , "mysql", "rabbitmq", "catalogue", "user", "cart", "shipping", "payment", "frontend"]
     image_id: ami-0220d79f3f480ecf5
-    domain_name: mydaws90.online # replace with your domain
-    action: create
   tasks:
   - name: create ec2 instances
     amazon.aws.ec2_instance:
@@ -19,7 +17,10 @@
       - common
     loop: "{{ instances }}"
     register: ec2_output
-    when: action == "create"
+    
+
+    
+  
     
   
     
