@@ -66,4 +66,15 @@
     when: action == "delete" 
     
     
+  - name: delete route53 record for frontend
+    amazon.aws.route53:
+      state: absent
+      zone: "{{ domain_name }}"
+      record: "{{ domain_name }}"
+      type: A
+      ttl: 1
+    loop: "{{ instances }}"
+    when: 
+    - action == "delete" 
+    - item == "frontend"
 
