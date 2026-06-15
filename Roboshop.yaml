@@ -22,6 +22,7 @@
   #   debug:
   #     msg: "{{ ec2_output }}"
   - name: print output
+    debug:
       msg: "Instance Name: {{ item.item }} PrivateIP: {{ item.instances[0].private_ip_address }}"
     loop: "{{ ec2_output.results }}"
 
