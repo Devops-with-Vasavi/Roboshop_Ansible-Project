@@ -28,8 +28,9 @@
 
   - name: create route53 records
     amazon.aws.route53:
-    debug:
-      msg: "{{ item.item}}-{{ domain_name }}"
+      state: present
+      zone: "{{ domain_name }}"
+      record: "{{ item.item}}-{{ domain_name }}"
     loop: "{{ ec2_output.results }}"
     
   
