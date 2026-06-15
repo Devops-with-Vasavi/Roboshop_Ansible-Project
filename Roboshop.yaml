@@ -17,9 +17,13 @@
       - common
     loop: "{{ instances }}"
     register: ec2_output
-  - name: print ouput
+  # - name: print ouput
+  #   debug:
+  #     msg: "{{ ec2_output }}"
+  - name: create route53 record
     debug:
-      msg: "{{ ec2_output }}"
+      msg: " instance_name: {{ item.item }} private_ip: {{ item.instances[0] }}"
+    loop: {{ ec2_output.results }}
 
     
   
