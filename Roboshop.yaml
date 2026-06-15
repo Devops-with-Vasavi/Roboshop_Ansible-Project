@@ -17,7 +17,9 @@
       - common
     loop: "{{ instances }}"
     register: ec2_output
-    
+  - name: print ouput
+    debug:
+      msg: "output is: ec2_output"
 
     
   
