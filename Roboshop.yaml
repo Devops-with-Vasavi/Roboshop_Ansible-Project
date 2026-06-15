@@ -19,7 +19,7 @@
     register: ec2_output
   - name: print ouput
     debug:
-      msg: "{{ output is: ec2_output }}"
+      msg: "{{ ec2_output }}"
 
     
   
