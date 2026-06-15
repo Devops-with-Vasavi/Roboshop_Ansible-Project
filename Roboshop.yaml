@@ -20,12 +20,15 @@
   # - name: print ouput
   #   debug:
   #     msg: "{{ ec2_output }}"
-  - name: create route53 record
-    debug:
+  - name: print output
       msg: "Instance Name: {{ item.item }} PrivateIP: {{ item.instances[0].private_ip_address }}"
     loop: "{{ ec2_output.results }}"
-    
-  
+
+  - name: create route53 records
+    amazon.aws.route53:
+    debug:
+      msg: "{{ item.item}}-{{ domain_name }}"
+    loop: "{{ ec2_output.results }}"
     
   
     
