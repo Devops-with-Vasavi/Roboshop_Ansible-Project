@@ -16,10 +16,11 @@
       region: us-east-1
       security_groups:
       - "roboshop-{{ item }}"
-      - roboshop-common
+      - common
     loop: "{{ instances }}"
     register: ec2_output
     when: action == "create"
+    
   
     
 
