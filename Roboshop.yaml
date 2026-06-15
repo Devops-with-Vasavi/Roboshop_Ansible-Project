@@ -79,8 +79,8 @@
     - item == "frontend"
 
   - name: Terminate every running instance in a region.
-  amazon.aws.ec2_instance:
-    state: absent
-    name: "roboshop-{{ item}}"
-  loop: "{{ instances }}"
-  when: action == "delete" 
+    amazon.aws.ec2_instance:
+      state: absent
+      name: "roboshop-{{ item}}"
+    loop: "{{ instances }}"
+    when: action == "delete" 
