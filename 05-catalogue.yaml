@@ -67,10 +67,10 @@
     when: catalogue_output.stdout | int < 0
     tags:
     - mongodb
-  - name: catalogue deamon realod
+  - name: catalogue daemon realod
     systemd_service:
       state: restarted
-      daemon_reload: true
+      daemon-reload: true
   - name: start and enable catalogue 
     service:
       name: catalogue
