@@ -46,7 +46,7 @@
     args:
       chdir: /app
   - name: copy shipping service
-    tempalte:
+    template:
       src: shipping-service.j2
       dest: /etc/systemd/system/shipping.service
   - name: load mysql data
