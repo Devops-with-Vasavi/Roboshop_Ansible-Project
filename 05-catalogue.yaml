@@ -28,7 +28,7 @@
     file:
      path: /app
      state: directory
-  - name: download catalogue code
+  - name: download catalogue
     get_url:
       url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
       dest: /tmp/catalogue.zip
@@ -44,10 +44,6 @@
     template:
       src: catalogue.service.j2
       dest: /etc/systemd/system/catalogue.service
-  # - name: reload catalogue service
-  #   service:
-  #     name: catalogue
-  #     stae: reloaded
   - name: copy mongodb client 
     copy:
       src: mongo.repo
@@ -71,3 +67,12 @@
     when: catalogue_output.stdout | int < 0
     tags:
     - mongodb
+  - name: catalogue deamon realod
+    systemd_service:
+      state: restarted
+      daemon_reload: true
+  - name: start and enable catalogue 
+    service:
+      name: catalogue
+      state: started
+      enabled: yes
