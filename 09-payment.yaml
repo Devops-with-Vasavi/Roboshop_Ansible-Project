@@ -7,7 +7,7 @@
       name: "{{ item }}"
       state: present
     loop:
-    - pipython3 
+    - python3 
     - gcc
     - python3-devel
   - name: create system user
