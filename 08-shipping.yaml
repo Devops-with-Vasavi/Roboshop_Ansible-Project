@@ -49,6 +49,11 @@
     template:
       src: shipping-service.j2
       dest: /etc/systemd/system/shipping.service
+  - name: install python dependencies
+    pip:
+      name: PyMySQL
+      executable: pip3.9
+      
   - name: load mysql data
     community.mysql.mysql_db:
       state: import
@@ -70,5 +75,10 @@
       name: shipping
       state: started
       enabled: yes
+  - name: enable and restart shipping
+    service:
+      name: shipping
+      enabled: yes
+      state: restarted
  
      
