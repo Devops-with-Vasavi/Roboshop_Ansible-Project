@@ -69,7 +69,7 @@
     - mongodb
   - name: catalogue daemon realod
     systemd_service:
-      state: restarted
+      name: catalogue
       daemon-reload: true
   - name: start and enable catalogue 
     service:
