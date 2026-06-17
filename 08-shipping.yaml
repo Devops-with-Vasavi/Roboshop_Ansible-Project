@@ -2,10 +2,13 @@
   hosts: shipping
   become: yes
   tasks:
-  - name: install maven
+  - name: install maven and mysql
     package: 
-      name: maven
+      name: "{{ item }}"
       state: present
+    loop:
+    - maven
+    - mysql
   - name: create system user
     user:
       name: roboshop
@@ -34,14 +37,35 @@
       src: /tmp/shipping.zip
       dest: /app
       remote_src: yes
-  - name: install depencies
-    community.general.npm:
-      path: /app
+  - name: install dependencies
+    command: mvn clean package
+    args:
+      chdir: /app
+  - name: moving shipping jar
+    command: mv target/shipping-1.0.jar shipping.jar 
+    args:
+      chdir: /app
   - name: copy shipping service
-    template:
+    tempalte:
       src: shipping-service.j2
-      dest: vim /etc/systemd/system/shipping.service
-  - name: deamon reload
+      dest: /etc/systemd/system/shipping.service
+  - name: load mysql data
+    community.mysql.mysql_db:
+      state: import
+      name: all
+      login_user: root
+      login_password: RoboShop@1
+      login_host: "{{ MYSQL_HOST }}"
+      target: "{{ item }}"
+    loop:
+    - /app/db/schema.sql
+    - /app/db/app-user.sql 
+    - /app/db/master-data.sql
+
+
+
+
+  - name: daemon-reload
     systemd_service:
       name: shipping
       daemon_reload: true
@@ -50,3 +74,5 @@
       name: shipping
       state: started
       enabled: yes
+  - name: 
+     
