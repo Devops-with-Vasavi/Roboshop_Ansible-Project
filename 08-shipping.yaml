@@ -61,10 +61,6 @@
     - /app/db/schema.sql
     - /app/db/app-user.sql 
     - /app/db/master-data.sql
-
-
-
-
   - name: daemon-reload
     systemd_service:
       name: shipping
@@ -74,5 +70,5 @@
       name: shipping
       state: started
       enabled: yes
-  - name: 
+ 
      
